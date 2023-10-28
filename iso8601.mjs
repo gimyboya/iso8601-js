@@ -264,18 +264,26 @@ function weekday(year, month, day) {
 
 /*
  *  weeksInISOYear returns number of weeks in a given proleptic Gregorian year.
+ *  see https://en.wikipedia.org/wiki/ISO_week_date#Weeks_per_year
  */
 function weeksInISOYear(gregYear) {
-    function calcP(y) {
-        return y + Math.floor(y / 4) - Math.floor(y / 100) +
-            Math.floor(y / 400);
-    }
-    if ((calcP(gregYear) % 7 === 4) ||
-        (calcP(gregYear - 1) % 7 === 3)) {
-        return 53;
-    } else {
-        return 52;
-    }
+  function calcP(year) {
+    return (
+      year +
+      Math.floor(year / 4) -
+      Math.floor(year / 100) +
+      Math.floor(year / 400)
+    );
+  }
+
+  const P = calcP(gregYear);
+  const PLastYear = calcP(gregYear - 1);
+
+  if (P % 7 === 4 || PLastYear % 7 === 3) {
+    return 53;
+  } else {
+    return 52;
+  }
 }
 
 /*
